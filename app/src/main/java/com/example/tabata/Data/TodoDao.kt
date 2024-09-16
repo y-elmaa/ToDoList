@@ -1,6 +1,7 @@
 package com.example.tabata.Data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
@@ -12,4 +13,7 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo")
     suspend fun getalltodo():List<TodoList>
+
+    @Delete
+    suspend fun Deletetodo(todoList: TodoList)
 }

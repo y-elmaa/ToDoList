@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val todoViewModel:TodoViewModel by viewModels()
+        val todoViewModel: TodoViewModel by viewModels()
         setContent {
             TabataTheme {
                 MainScreen(todoViewModel)
@@ -51,12 +51,9 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
-
-
 @Composable
 fun MainScreen(todoViewModel: TodoViewModel) {
-    val todo_list by todoViewModel.getAllTodo().observeAsState(emptyList())
+    val todo_list by todoViewModel.todos.observeAsState(emptyList())
 
     var input_text by remember {
         mutableStateOf("")
@@ -89,23 +86,17 @@ fun MainScreen(todoViewModel: TodoViewModel) {
         }
         Spacer(Modifier.height(10.dp))
 
-        CostumList(list = todo_list)
+        CostumList(list = todo_list , deleteclick = { todolist ->
+            todoViewModel.DeleteTodo(todolist )
+        })
 
     }
 }
 
 
-
-
-
-
-
 @Preview(showSystemUi = true)
 @Composable
 fun preview(modifier: Modifier = Modifier) {
-
-
-
 
 
 }
