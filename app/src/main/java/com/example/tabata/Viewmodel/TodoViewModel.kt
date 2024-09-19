@@ -2,51 +2,67 @@ package com.example.tabata.Viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
+
 import androidx.lifecycle.viewModelScope
 
-import androidx.room.Room
+
 import com.example.tabata.Data.DataBase
 import com.example.tabata.Data.TodoList
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
 import kotlinx.coroutines.launch
 
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
+    private val todoDao = DataBase.getDatabase(application).tododao()
 
-    private val db:DataBase= Room.databaseBuilder(
-        application,
-        DataBase::class.java, "todo"
-    ).build()
+    private val _todos = MutableStateFlow<List<TodoList>>(emptyList())
+    val todos: StateFlow<List<TodoList>> = _todos
 
-    private val tododao = db.tododao()
 
-    private  val _todo = MutableLiveData<List<TodoList>>()
-    val todos : LiveData<List<TodoList>> get() = _todo
+
+    private val _setslectedtodo  = MutableStateFlow<TodoList?>(null)
+    val setlelectedtodo : StateFlow<TodoList?> = _setslectedtodo.asStateFlow()
 
     init {
-        getAllTodo()
-    }
-    fun getAllTodo() {
         viewModelScope.launch {
-            _todo.value = tododao.getalltodo()
+            _todos.value = todoDao.getalltodo() // Assuming you have this method in TodoDao
         }
     }
-    fun insertTodo(todoList: TodoList){
-            viewModelScope.launch {
-                tododao.InsertTodo(todoList)
-                getAllTodo()
-            }
+
+     fun insertTodo(todo: TodoList) {
+
+        viewModelScope.launch {
+
+            todoDao.InsertTodo(todo)
+            _todos.value = todoDao.getalltodo() // Update the list after insertion
+        }
 
     }
 
-    fun DeleteTodo(todoList: TodoList){
+    fun deleteTodo(todo: TodoList) {
 
         viewModelScope.launch {
-            tododao.Deletetodo(todoList)
 
-            getAllTodo()
+            todoDao.Deletetodo(todo)
+            _todos.value = todoDao.getalltodo() // Update the list after deletion
         }
+    }
+
+    fun updateTodo(todo: TodoList) {
+
+        viewModelScope.launch {
+
+            todoDao.UpdateTodo(todo)
+            _todos.value = todoDao.getalltodo() // Update the list after deletion
+        }
+    }
+
+
+
+    fun setselectedtodo(todo: TodoList){
+            _setslectedtodo.value = todo
     }
 }

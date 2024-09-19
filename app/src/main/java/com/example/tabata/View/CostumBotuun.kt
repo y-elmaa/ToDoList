@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CostumBotuun(onclick: () -> Unit) {
+fun CostumBotuun( name:String , onclick: () -> Unit) {
 
     var button_color = Color.Green
 
@@ -27,6 +27,6 @@ fun CostumBotuun(onclick: () -> Unit) {
         ),
         shape = RoundedCornerShape(15.dp)
     ) {
-        Text(text = "Add")
+        Text(text = name)
     }
 }
