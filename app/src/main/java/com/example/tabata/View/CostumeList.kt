@@ -35,21 +35,28 @@ import com.example.tabata.Data.TodoList
 import com.example.tabata.Viewmodel.TodoViewModel
 
 @Composable
-fun CostumeList(list: List<TodoList>, deleteclick:(TodoList)-> Unit, onitemclick : (TodoList)-> Unit) {
+fun CostumeList(
+    list: List<TodoList>,
+    deleteclick: (TodoList) -> Unit,
+    onitemclick: (TodoList) -> Unit
+) {
 
 
-
-    LazyColumn (
+    LazyColumn(
         reverseLayout = true
-    ){
+
+    ) {
         items(list) { item ->
-            CostumCard(todo = item , deleteclick = { deleteclick(item)} , onitemclick={ onitemclick(item)} )
+            CostumCard(
+                todo = item,
+                deleteclick = { deleteclick(item) },
+                onitemclick = { onitemclick(item) })
         }
     }
 }
 
 @Composable
-fun CostumCard(todo: TodoList, deleteclick: () -> Unit  , onitemclick : ()-> Unit) {
+fun CostumCard(todo: TodoList, deleteclick: () -> Unit, onitemclick: () -> Unit) {
     val card_color = Color.Cyan
 
     Card(
@@ -78,7 +85,7 @@ fun CostumCard(todo: TodoList, deleteclick: () -> Unit  , onitemclick : ()-> Uni
             )
 
             IconButton(onClick = deleteclick) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = "delet todo" )
+                Icon(imageVector = Icons.Default.Delete, contentDescription = "delet todo")
             }
 
         }
@@ -86,12 +93,12 @@ fun CostumCard(todo: TodoList, deleteclick: () -> Unit  , onitemclick : ()-> Uni
 }
 
 @Composable
-fun Detail(todoViewModel: TodoViewModel , navController: NavHostController) {
+fun Detail(todoViewModel: TodoViewModel, navController: NavHostController) {
 
     val selectedTodo by todoViewModel.setlelectedtodo.collectAsState()
 
     var texxxt by remember {
-        mutableStateOf(selectedTodo?.text?: "")
+        mutableStateOf(selectedTodo?.text ?: "")
     }
 
 
@@ -108,12 +115,51 @@ fun Detail(todoViewModel: TodoViewModel , navController: NavHostController) {
                 horizontalArrangement = Arrangement.SpaceEvenly
 
             ) {
-        CostumInput(value = texxxt , onvaluechange = { texxxt = it }   )
+                CostumInput(value = texxxt, onvaluechange = { texxxt = it }, "modifier")
 
-            CostumBotuun (name = "modifier", onclick = {
+                CostumBotuun(name = "modifier", onclick = {
 
-                if (texxxt.isNotEmpty()){
-                    todoViewModel.updateTodo(TodoList(id = selectedTodo!!.id ,  text =  texxxt))
+                    if (texxxt.isNotEmpty()) {
+                        todoViewModel.updateTodo(TodoList(id = selectedTodo!!.id, text = texxxt))
+
+                        navController.navigate("main")
+                    }
+                }
+
+
+                )
+
+
+            }
+        }
+    } ?: Text(text = "No todo selected", fontSize = 20.sp)
+}
+
+@Composable
+fun Detail2(todoViewModel: TodoViewModel, navController: NavHostController) {
+
+
+    var inputText by remember {
+        mutableStateOf("")
+    }
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+
+        ) {
+            CostumInput(value = inputText, onvaluechange = { inputText = it }, "add tasck")
+
+
+
+            CostumBotuun(name = "add", onclick = {
+
+                if (inputText.isNotEmpty()) {
+                    todoViewModel.insertTodo(TodoList(text = inputText))
 
                     navController.navigate("main")
                 }
@@ -123,12 +169,11 @@ fun Detail(todoViewModel: TodoViewModel , navController: NavHostController) {
             )
 
 
-            
-
-        }}
-    } ?:
-        Text(text = "No todo selected", fontSize = 20.sp)
+        }
     }
+
+
+}
 
 
 

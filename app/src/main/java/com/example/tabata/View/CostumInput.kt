@@ -1,18 +1,21 @@
 package com.example.tabata.View
 
+
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CostumInput(value : String , onvaluechange: (String) -> Unit) {
+fun CostumInput(value : String , onvaluechange: (String) -> Unit , placeholder : String) {
 
     val custom_color = Color.Red
 
@@ -24,7 +27,7 @@ fun CostumInput(value : String , onvaluechange: (String) -> Unit) {
         onvaluechange(it)
 
 
-    }, placeholder = { Text(text = "action", modifier = Modifier.padding(start = 10.dp)) },
+    }, placeholder = { Text(text = placeholder, modifier = Modifier.padding(start = 10.dp)) },
         colors = TextFieldDefaults.colors(
             unfocusedIndicatorColor = Color.Unspecified,
             focusedIndicatorColor = Color.Unspecified,
@@ -35,3 +38,4 @@ fun CostumInput(value : String , onvaluechange: (String) -> Unit) {
         modifier = Modifier.width(250.dp)
     )
 }
+

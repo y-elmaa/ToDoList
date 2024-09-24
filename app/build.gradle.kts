@@ -58,12 +58,25 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.foundation:foundation")
+    implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-compose:2.8.0")
     implementation(libs.androidx.lifecycle.livedata.ktx)
+
+// Room dependencies
+    implementation("androidx.room:room-runtime:2.5.2")
+    implementation("androidx.room:room-ktx:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
+
+// Lifecycle
+    val lifecycle_version = "2.6.2"
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+
+// Test dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,20 +84,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation ("androidx.navigation:navigation-compose:2.6.0")
 
-    implementation("androidx.room:room-runtime:2.5.2")
-
-    val lifecycle_version = "2.6.2"
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-livedata:2.8.5")
-    implementation ("androidx.compose.runtime:runtime-livedata:1.0.0")
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
-    val room_version = "2.5.2"
-
-    implementation("androidx.room:room-ktx:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
 
 
 
